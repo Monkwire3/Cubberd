@@ -58,7 +58,6 @@ export const editShoppingList = (currentUserId, shoppingListItem, quantity) => a
     dispatch(editShoppingListItem(newShoppingListItem));
 }
 
-
 const shoppingListReducer = (state = {}, action) => {
     const nextState = {...state}
     switch (action.type) {

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Cubberd from '../Cubberd/Cubberd';
 import Pot from "../Pot/Pot";
 import PotContents from "../Pot/PotContents/PotContents";
+import { useTour } from '@reactour/tour'
 import ShoppingList from "../ShoppingList/ShoppingList";
 
 function MainPage() {
@@ -15,6 +16,7 @@ function MainPage() {
     const sessionUser = useSelector(state => state.session.user);
     const recipes = useSelector(state => state.recipes);
     const recipe = recipes[0];
+    const { setIsOpen } = useTour();
     const shoppingList = useSelector(state => state.session.user.shoppingList);
 
     useEffect(() => {
@@ -37,6 +39,7 @@ function MainPage() {
                     <div id="main-page-top-right">
                         <div id="navbar-container" className="main-display-component">
                             <nav>{sessionUser && <span>Logged in as <Link to="/profile">{sessionUser.username}</Link> <button onClick={handleLogout}>Logout</button> </span>}</nav>  
+                            <button id="start-tour-button" onClick={() => setIsOpen(true)}>Open Tour</button>
                         </div>
                         <div id="main-page-top-right-bottom">
                             <div id="pot-container" className="main-display-component">

@@ -143,6 +143,15 @@ router.delete("/:userId/cubberd", restoreUser, requireUser, async (req, res) => 
   }
 );
 
+// Clear cubberd
+router.delete("/:userId/clearCubberd", restoreUser, requireUser, async (req, res) => {
+  const currentUserId = req.user._id;
+  const currentUser = await User.findById(currentUserId);
+  currentUser.cubberd = [];
+  currentUser.save();
+  res.json(currentUser.cubberd);
+})
+
 //Get a current user's shopping list
 router.get("/:userId/shoppingList", requireUser, async (req, res) => {
   const shoppingList = await User.findById(req.params.userId, "shoppingList");

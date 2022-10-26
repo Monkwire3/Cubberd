@@ -16,7 +16,7 @@ router.get('/:recipeId', async(req, res, next) => {
 })
 
 // get by multiple ingredients 
-//const getRecipes = async query => Recipe.find({"ingredients.food": {$all: query}})
+const getRecipes = async query => Recipe.find({"ingredients.food": {$all: query}})
 
 const calculateShoppingScore = (cubberdArr, recipe) => {
     let shoppingScore;
@@ -30,8 +30,7 @@ const calculateShoppingScore = (cubberdArr, recipe) => {
     return shoppingScore
 }
 
-router.get("/ingredients", async(req, res) => {
-    console.log("hello")
+router.post("/ingredients", async(req, res) => {
     const pot = req.body.pot
     const numQueryIngredients = pot.length;
     const cubberd = req.body.cubberd
@@ -43,21 +42,22 @@ router.get("/ingredients", async(req, res) => {
             potSubsets.push(subset)
         }
     }
-    
     potSubsets.sort((a, b) => a.length > b.length ? -1 : 1);
     
-    let ingredientScore;
-    let shoppingScore;
+    // let ingredientScore;
     let recipesByIngredientScore = []
     let recipesByShoppingScore = []
     let recipesQuery = []
     let recipes = []
     for (let i = 0; i < potSubsets.length; i++) {
         let query = potSubsets[i]
-        // recipesArr = await Recipe.find({"ingredients.food": {$all: query}})
+        //recipesQuery = await Recipe.find({"ingredients.food": {$all: query}})
         recipesQuery = await getRecipes(query)
-        ingredientScore = Math.round((query.length / numQueryIngredients) * 100)
+
+        const ingredientScore = Math.round((query.length / numQueryIngredients) * 100)
+        let shoppingScore;
         recipesQuery.forEach(recipe => {
+
             shoppingScore = calculateShoppingScore(cubberd, recipe)
             if (recipesByIngredientScore.length < 3) {
                 recipesByIngredientScore.push({"ingredientsScore": ingredientScore, "shoppingScore": shoppingScore, "recipe": recipe})
@@ -65,10 +65,8 @@ router.get("/ingredients", async(req, res) => {
             recipesByShoppingScore.push({"ingredientsScore": ingredientScore, "shoppingScore": shoppingScore, "recipe": recipe})
         })
     }
-
-    recipesByShoppingScore.sort((a, b) => {a.shoppingScore > b.shoppingScore ? -1 : 1})
-    recipes.push(recipesByIngredientScore, recipesByShoppingScore.slice(0,4))
-
+    recipesByShoppingScore.sort((a, b) => a.shoppingScore > b.shoppingScore ? -1 : 1)
+    recipes.push(recipesByIngredientScore, recipesByShoppingScore.slice(0,3))
     return res.json(recipes)
 })
 

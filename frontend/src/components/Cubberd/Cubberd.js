@@ -2,10 +2,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   composeUserCubberdIngredient,
-  deleteUserCubberdIngredient,
-  fetchIngredients,
+  deleteUserCubberd,
   fetchUserCubberdIngredients,
-} from "../../store/ingredients";
+} from "../../store/session";
 import "./Cubberd.css";
 import { BiSearchAlt } from "react-icons/bi";
 import { SiCodechef } from "react-icons/si";
@@ -14,12 +13,13 @@ import woodBackground from "../../assets/retina_wood.png";
 import CubberdRow from "./CubberdRow";
 import { CustomToolTipTop } from "../ToolTip/ToolTip";
 import { PotContext } from "../../context/PotContext";
+import { fetchIngredients } from "../../store/ingredients";
 
 const Cubberd = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
-  const userCubberd = useSelector((state) => state.ingredients.userCubberd);
-  const allIngredients = useSelector((state) => state.ingredients.all);
+  const userCubberd = useSelector((state) => state.session.user.cubberd);
+  const allIngredients = useSelector((state) => state.ingredients);
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLi, setSelectedLi] = useState(0);
@@ -28,7 +28,9 @@ const Cubberd = () => {
   const [cubberdIngIds, setCubberdIngIds] = useState([]);
   const { setPotContents } = useContext(PotContext);
   const [loading, setLoading] = useState(false);
+  const [completedAnimation, setCompletedAnimation] = useState(false);
   const ref = useRef();
+  const node = useRef();
 
   const handleDoorClick = () => {
     if (openDoor) {
@@ -44,6 +46,15 @@ const Cubberd = () => {
     }
   };
 
+  const clickOutside = (e) => {
+    if (node.current) {
+      if (node.current.contains(e.target)) {
+        return
+      } 
+    }
+    setSearchResults(false)
+  }
+
   useEffect(() => {
     dispatch(fetchIngredients());
 
@@ -55,8 +66,11 @@ const Cubberd = () => {
       }
     }, 2000);
 
+    document.addEventListener("mousedown", clickOutside)
+
     return () => {
       clearTimeout(doorTimeOut);
+      document.removeEventListener("mousedown", clickOutside)
     };
   }, [dispatch]);
 
@@ -120,11 +134,15 @@ const Cubberd = () => {
     setSearchResults([]);
     setSearchQuery("");
 
-    let existingArr = userCubberd.filter((ele) => ele._id === result._id);
-    if (existingArr.length === 0) {
-      addToUserCubberd(result);
+    if (userCubberd.length > 0) {
+      let existingArr = userCubberd.filter((ele) => ele._id === result._id);
+      if (existingArr.length === 0) {
+        addToUserCubberd(result);
+      } else {
+        return;
+      }
     } else {
-      return;
+      addToUserCubberd(result)
     }
   };
 
@@ -154,18 +172,30 @@ const Cubberd = () => {
       setSearchQuery("");
     }
     let selectedEle = document.getElementsByClassName("selected")[0];
-    selectedEle.scrollIntoView({
-      block: "nearest",
-      inline: "start",
-    });
+    if (selectedEle) {
+      selectedEle.scrollIntoView({
+        block: "nearest",
+        inline: "start",
+      });
+    }
   };
 
   const handleEmptyCubberd = (e) => {
     e.preventDefault();
 
-    userCubberd.forEach((ing) => {
-      dispatch(deleteUserCubberdIngredient(currentUser._id, ing));
-    });
+    setLoading(true)
+
+    dispatch(deleteUserCubberd(currentUser._id))
+
+    setTimeout(() => {
+      setLoading(false)
+      setCompletedAnimation(true)
+    }, 500);
+    
+    setTimeout(() => {
+      setCompletedAnimation(false);
+    }, 1200);
+
     setPotContents([]);
   };
 
@@ -211,13 +241,14 @@ const Cubberd = () => {
           </div>
           <div className="cubberd-ingredients-container-wrapper">
             {searchResults && searchResults.length > 0 && (
-              <ul className="search-results">
+              <ul className="search-results" ref={node}>
                 {searchResults.map((result, i) => {
                   return (
                     <li
                       onClick={(e) => handleResultFoodClick(e, result)}
                       ref={i === selectedLi ? ref : null}
                       className={i === selectedLi ? "selected" : ""}
+                      key={`searchResult ${result} ${i}`}
                     >
                       {result.food}
                     </li>
@@ -237,7 +268,7 @@ const Cubberd = () => {
               ))}
           </div>
           <div className="cubberd-footer">
-            {!loading && (
+            {!loading && !completedAnimation && userCubberd.length > 0 && (
               <CustomToolTipTop
                 title="Empty your cubberd?"
                 arrow
@@ -258,6 +289,9 @@ const Cubberd = () => {
                 <div></div>
                 <div></div>
               </div>
+            )}
+            {completedAnimation && (
+              <div className="checkmark"></div>
             )}
             <CustomToolTipTop title="Add all to pot?" arrow placement="top-end">
               <div className="cubberd-footer-options" onClick={handleAddAll}>
