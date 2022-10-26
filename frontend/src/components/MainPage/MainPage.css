@@ -79,3 +79,7 @@
   width: 100%;
   padding: 1em;
 }
+
+#start-tour-button {
+  height: 40px;
+}
