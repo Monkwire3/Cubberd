@@ -2,17 +2,31 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRecipe } from "../../store/recipes";
 import { useEffect } from "react";
+import { useState } from "react";
+import RecipeShowPageListItem from "../RecipeShowPageListItem/RecipeShowPageListItem";
 
 function RecipeShowPage() {
+    const dispatch = useDispatch();
     const { id } = useParams();
-    const recipe = useSelector(state => state.recipes);
+    const recipe = useSelector(state => state.recipes)
+    recipe.ingredients ||= [];
 
-    // useEffect(() => {
-    //     dispatchEvent(fetchRecipe(id));
-    // }, [])
+    useEffect(() => {
+        dispatch(fetchRecipe(id));
+    }, [])
+
+    const ingredientsList = recipe.ingredients.map((ingredient) => <RecipeShowPageListItem ingredientData={ingredient} />);
 
     return (
-        <h1>recipe show page {id} </h1>
+        <div id="recipe-show-page">
+            <h1>{recipe.label}</h1>
+            <div id="ingredients-list">
+                {ingredientsList}
+            </div>
+            <div>
+                
+            </div>
+        </div>
     )
 }
 
