@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   FaGithubSquare,
   FaLinkedin,
   FaAngellist,
   FaUserAstronaut,
 } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { CgWebsite } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
 import "./AboutPage.css";
 import tommyPic from "../../assets/tommy.jpg";
 import fredPic from "../../assets/fred.jfif";
@@ -18,15 +19,13 @@ function AboutPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [index, setIndex] = useState();
-  const [aboutUsTab, setAboutUsTab] = useState();
+  const currentUser = useSelector((state) => state.session.user);
+
   const handleLogout = () => {
     dispatch(logout());
     history.push("/");
   };
 
-  // const optionA = <div id="optionA" ></div>
-  // const optionB = <div id="optionB" >Still no cubberd. You order in once again. Your wallet takes the hit. Your food goes bad.</div>
-  // const optionC = <div id="optionC" >You add toast and mandarins to your pot and get back some delicious recipes. You might worry, “how do I choose??” Well worry not! The recipes come ranked. Want to see which recipes use the highest percentage of your ingredients? Look at the Ingredient Score. Want to see which recipes require the least shopping for new ingredients? Toggle the Shopping Score. You’ll no longer see your fridge items as “disconnected and random.” You see them for what they really are: Your dinner.</div>
   let text = <div></div>;
   switch (index) {
     case 0:
@@ -67,26 +66,33 @@ function AboutPage() {
 
   return (
     <div id="about-page" className="about-display main-display">
-      {/* <nav id="about-page-nav-bar" className="main-display-component">
-                <a href='/'>Home</a>
-                <a href='/profile'>Profile</a>
-            </nav> */}
       <nav id="about-page-nav-bar" className="main-display-component">
-        <div id="about-page-nav-links" className="nav-links-div">
-          <div className="nav-bar-link">
-            <Link className="nav-bar-link" to="/">
-              Back to Cubberd
+        {currentUser ? (
+          <div id="about-page-nav-links" className="nav-links-div">
+            <div className="nav-bar-link">
+              <Link className="nav-bar-link" to="/">
+                Back to Cubberd
+              </Link>
+            </div>
+            <div className="nav-bar-link">
+              <Link className="nav-bar-link" to="/profile">
+                My Recipes
+              </Link>
+            </div>
+            <div onClick={handleLogout} className="nav-bar-link">
+              Logout
+            </div>
+          </div>
+        ) : (
+          <div id="about-page-nav-links-logged-out" className="nav-links-div">
+            <Link className="nav-bar-link" to={{ pathname: "/login" }}>
+              Log In
+            </Link>
+            <Link className="nav-bar-link" to={{ pathname: "/signup" }}>
+              Sign Up
             </Link>
           </div>
-          <div className="nav-bar-link">
-            <Link className="nav-bar-link" to="/profile">
-              My Recipes
-            </Link>
-          </div>
-          <div onClick={handleLogout} className="nav-bar-link">
-            Logout
-          </div>
-        </div>
+        )}
       </nav>
 
       <div id="about-page-content-top">
@@ -177,6 +183,16 @@ function AboutPage() {
             <div className="teammate-card-links">
               <a href="https://github.com/arcoop/" target="_blank">
                 <FaGithubSquare />
+              </a>
+              <a href="https://adina-cooper.com/" target="_blank">
+                <CgWebsite />
+              </a>
+              <a
+                href="https://angel.co/u/adina-cooper-1"
+                className="angel-list"
+                target="_blank"
+              >
+                <FaAngellist />
               </a>
               <a
                 href="https://www.linkedin.com/in/adina-cooper/"

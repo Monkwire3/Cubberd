@@ -164,11 +164,10 @@ function ShoppingList({ items }) {
     <>
       <div className="shopping-list-search-container">
         <div className="shopping-list-search-bar-container">
-          {/* <div className="cubberd-search-bar-container">1 */}
           <input
             type="text"
             className="shopping-list-search-bar"
-            placeholder="Search for ingredients..."
+            placeholder="Add to shopping list"
             onChange={(e) => searchItem(e.target.value)}
             value={shoppingSearchQuery}
             onKeyDown={(e) => handleKeyDown(e)}

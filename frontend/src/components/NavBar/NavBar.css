@@ -25,7 +25,13 @@ span {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(to bottom, #c9ced6 0%,#cfd4db 50%,#d6dae0 51%,#cfd4db 100%);
+  background: linear-gradient(
+    to bottom,
+    #c9ced6 0%,
+    #cfd4db 50%,
+    #d6dae0 51%,
+    #cfd4db 100%
+  );
   -webkit-box-shadow: inset 1px -1px 7px 2px rgba(50, 50, 50, 0.62);
   -moz-box-shadow: inset 1px -1px 7px 2px rgba(50, 50, 50, 0.62);
   box-shadow: inset 1px -1px 7px 2px rgba(50, 50, 50, 0.62);
@@ -37,7 +43,13 @@ span {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(to bottom, #c9ced6 0%,#cfd4db 50%,#d6dae0 51%,#cfd4db 100%);
+  background: linear-gradient(
+    to bottom,
+    #c9ced6 0%,
+    #cfd4db 50%,
+    #d6dae0 51%,
+    #cfd4db 100%
+  );
   -webkit-box-shadow: inset -1px -1px 7px 1px rgba(50, 50, 50, 0.62);
   -moz-box-shadow: inset -1px -1px 7px 1px rgba(50, 50, 50, 0.62);
   box-shadow: inset -1px -1px 7px 1px rgba(50, 50, 50, 0.62);
@@ -48,7 +60,13 @@ span {
 .rack-bar {
   width: 90%;
   height: 15px;
-  background: linear-gradient(to bottom, #c9ced6 0%,#ebedf0 50%,#e4e7eb 51%,#dde1e6 100%);
+  background: linear-gradient(
+    to bottom,
+    #c9ced6 0%,
+    #ebedf0 50%,
+    #e4e7eb 51%,
+    #dde1e6 100%
+  );
   -webkit-box-shadow: inset 0px -2px 7px 1px rgba(50, 50, 50, 0.2);
   -moz-box-shadow: inset 0px -2px 7px 1px rgba(50, 50, 50, 0.2);
   box-shadow: inset 0px -2px 7px 1px rgba(50, 50, 50, 0.2);
@@ -97,7 +115,7 @@ span {
 }
 
 .pan-one-animate {
-  animation: movePanOne 1s forwards linear; 
+  animation: movePanOne 1s forwards linear;
 }
 
 @keyframes movePanOne {
@@ -106,24 +124,24 @@ span {
   }
   25% {
     left: 15%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     left: 15%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     left: 15%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     left: 15%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
 .pan-one-return {
-  animation: returnPanOne 1s forwards linear; 
+  animation: returnPanOne 1s forwards linear;
 }
 
 @keyframes returnPanOne {
@@ -132,19 +150,19 @@ span {
   }
   25% {
     left: 40%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     left: 40%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     left: 40%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     left: 40%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
@@ -180,33 +198,33 @@ span {
 }
 
 .pan-two-animate {
-  animation: movePanTwo 1s forwards linear; 
+  animation: movePanTwo 1s forwards linear;
 }
 
 @keyframes movePanTwo {
   0% {
-    right: 25%; 
+    right: 25%;
   }
   25% {
     right: 10%;
-    transform: rotateY(220deg) rotateZ(20deg)
+    transform: rotateY(220deg) rotateZ(20deg);
   }
   50% {
     right: 10%;
-    transform: rotateY(220deg) rotateZ(-20deg)
+    transform: rotateY(220deg) rotateZ(-20deg);
   }
   75% {
     right: 10%;
-    transform: rotateY(220deg) rotateZ(5deg)
+    transform: rotateY(220deg) rotateZ(5deg);
   }
   100% {
     right: 10%;
-    transform: rotateY(220deg) rotateZ(0deg)
+    transform: rotateY(220deg) rotateZ(0deg);
   }
 }
 
 .pan-two-return {
-  animation: returnPanTwo 1s forwards linear; 
+  animation: returnPanTwo 1s forwards linear;
 }
 
 @keyframes returnPanTwo {
@@ -215,19 +233,19 @@ span {
   }
   25% {
     right: 25%;
-    transform: rotateY(220deg) rotateZ(20deg)
+    transform: rotateY(220deg) rotateZ(20deg);
   }
   50% {
     right: 25%;
-    transform: rotateY(220deg) rotateZ(-20deg)
+    transform: rotateY(220deg) rotateZ(-20deg);
   }
   75% {
     right: 25%;
-    transform: rotateY(220deg) rotateZ(5deg)
+    transform: rotateY(220deg) rotateZ(5deg);
   }
   100% {
     right: 25%;
-    transform: rotateY(220deg) rotateZ(0deg)
+    transform: rotateY(220deg) rotateZ(0deg);
   }
 }
 
@@ -261,7 +279,7 @@ span {
 }
 
 .ladle-hook-animate {
-  animation: moveLadle 1s forwards linear; 
+  animation: moveLadle 1s forwards linear;
 }
 
 @keyframes moveLadle {
@@ -270,24 +288,24 @@ span {
   }
   25% {
     right: 15%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     right: 15%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     right: 15%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     right: 15%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
 .ladle-hook-return {
-  animation: returnLadle 1s forwards linear; 
+  animation: returnLadle 1s forwards linear;
 }
 
 @keyframes returnLadle {
@@ -296,19 +314,19 @@ span {
   }
   25% {
     right: 40%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     right: 40%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     right: 40%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     right: 40%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
@@ -337,13 +355,12 @@ span {
   color: rgb(255, 255, 255);
 }
 
-
 #spatula-hook {
   left: 25%;
 }
 
 .spatula-hook-animate {
-  animation: moveSpatula 1s forwards linear; 
+  animation: moveSpatula 1s forwards linear;
 }
 
 @keyframes moveSpatula {
@@ -352,24 +369,24 @@ span {
   }
   25% {
     left: 10%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     left: 10%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     left: 10%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     left: 10%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
 .spatula-hook-return {
-  animation: returnSpatula 1s forwards linear; 
+  animation: returnSpatula 1s forwards linear;
 }
 
 @keyframes returnSpatula {
@@ -378,19 +395,19 @@ span {
   }
   25% {
     left: 25%;
-    transform: rotateZ(20deg)
+    transform: rotateZ(20deg);
   }
   50% {
     left: 25%;
-    transform: rotateZ(-20deg)
+    transform: rotateZ(-20deg);
   }
   75% {
     left: 25%;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
   }
   100% {
     left: 25%;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
   }
 }
 
@@ -415,11 +432,11 @@ span {
 .nav-bar-link {
   text-decoration: none;
   color: black;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .nav-bar-link:hover {
   cursor: pointer;
   color: var(--secondary-dark-color);
-  transition: .2s;
+  transition: 0.2s;
 }

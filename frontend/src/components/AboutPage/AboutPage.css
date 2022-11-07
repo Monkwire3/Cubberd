@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+#about-page-nav-links-logged-out {
+  gap: 20px;
+}
+
 #about-page {
   display: flex;
   flex-direction: column;
