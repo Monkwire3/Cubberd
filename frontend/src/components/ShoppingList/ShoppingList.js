@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToShoppingList } from "../../store/session";
+import { addToShoppingList, changeItemQuantity } from "../../store/session";
 import ShoppingListItem from "../ShoppingListItem/ShoppingListItem";
 import "./ShoppingList.css";
 import { BiSearchAlt } from "react-icons/bi";
@@ -9,12 +9,8 @@ function ShoppingList({ items }) {
   const currentUser = useSelector((state) => state.session.user);
   const [shoppingSearchResults, setShoppingSearchResults] = useState([]);
   const [shoppingSearchQuery, setShoppingSearchQuery] = useState("");
-  const [nonShoppingListIngredients, setNonShoppingListIngredients] = useState(
-    []
-  );
   const allIngredients = useSelector((state) => state.ingredients);
   const [selectedLi, setSelectedLi] = useState(0);
-  const [shoppingListIngIds, setShoppingListIngIds] = useState([]);
   const ref = useRef();
   const node = useRef();
   const node2 = useRef();
@@ -24,29 +20,6 @@ function ShoppingList({ items }) {
   const shoppingListItems = items.map((item) => (
     <ShoppingListItem item={item} />
   ));
-
-  useEffect(() => {
-    if (items && items.length > 0) {
-      const idArr = [];
-      items.forEach((ing) => {
-        idArr.push(ing.ingredient._id);
-      });
-      setShoppingListIngIds([...idArr]);
-    }
-
-    return () => {
-      setShoppingListIngIds([]);
-    };
-  }, [items]);
-
-  useEffect(() => {
-    if (allIngredients.length > 0) {
-      const notInShoppingListArr = allIngredients.filter(
-        (ing) => !shoppingListIngIds.includes(ing._id)
-      );
-      setNonShoppingListIngredients([...notInShoppingListArr]);
-    }
-  }, [shoppingListIngIds]);
 
   const searchItem = (query) => {
     if (!query) {
@@ -59,17 +32,23 @@ function ShoppingList({ items }) {
 
     const results = [];
 
-    nonShoppingListIngredients.forEach((ing) => {
+    allIngredients.forEach((ing) => {
       if (ing.food.toLowerCase().indexOf(query) !== -1) {
         results.push(ing);
       }
     });
 
+    if (results.length === 0) {
+      results.push({ food: "No matching results" });
+    }
     setShoppingSearchResults(results);
   };
 
   const handleResultFoodClick = (e, result) => {
     e.preventDefault();
+    if (result.food === "No matching results") {
+      return;
+    }
     setShoppingSearchResults([]);
     setShoppingSearchQuery("");
     let obj = { food: result.food };
@@ -81,12 +60,23 @@ function ShoppingList({ items }) {
       if (existingArr.length === 0) {
         dispatch(addToShoppingList(currentUser._id, obj));
       } else {
+        let item = existingArr[0];
+        let newQuantity = item.quantity + 1;
+        dispatch(changeItemQuantity(currentUser._id, item._id, newQuantity));
         return;
       }
     } else {
       dispatch(addToShoppingList(currentUser._id, obj));
     }
   };
+
+  useEffect(() => {
+    setSelectedLi(0);
+
+    return () => {
+      setSelectedLi(0);
+    };
+  }, [shoppingSearchResults]);
 
   const handleKeyDown = (e) => {
     let last = shoppingSearchResults.length - 1;
@@ -107,8 +97,23 @@ function ShoppingList({ items }) {
     } else if (e.key === "Enter") {
       if (shoppingSearchResults[selectedLi]) {
         if (shoppingSearchResults[selectedLi]._id) {
-          let obj = { food: shoppingSearchResults[selectedLi].food };
-          dispatch(addToShoppingList(currentUser._id, obj));
+          let selectedFood = shoppingSearchResults[selectedLi];
+
+          let existingArr = items.filter(
+            (ele) => ele.ingredient._id === selectedFood._id
+          );
+          if (existingArr.length === 0) {
+            let obj = { food: selectedFood.food };
+            dispatch(addToShoppingList(currentUser._id, obj));
+          } else {
+            let item = existingArr[0];
+            let newQuantity = item.quantity + 1;
+            dispatch(
+              changeItemQuantity(currentUser._id, item._id, newQuantity)
+            );
+          }
+        } else {
+          return;
         }
       }
       setShoppingSearchResults([]);

@@ -135,11 +135,17 @@ const Cubberd = () => {
       }
     });
 
+    if (results.length === 0) {
+      results.push({ food: "No matching results" });
+    }
     setSearchResults(results);
   };
 
   const handleResultFoodClick = (e, result) => {
     e.preventDefault();
+    if (result.food === "No matching results") {
+      return;
+    }
     setSearchResults([]);
     setSearchQuery("");
 
@@ -179,6 +185,8 @@ const Cubberd = () => {
       if (searchResults[selectedLi]) {
         if (searchResults[selectedLi]._id) {
           addToUserCubberd(searchResults[selectedLi]);
+        } else {
+          return;
         }
       }
       setSearchResults([]);
