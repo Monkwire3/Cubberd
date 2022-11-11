@@ -13,7 +13,7 @@ function RecipeShowModal({ recipe, recipeContext }) {
     const [showModal, setShowModal] = useState(false);
     const currentUser = useSelector(state => state.session.user ? state.session.user : {})
     const currentUserId = currentUser._id;
-    const [resultRecipe, setResultRecipe] = useState()
+    const [resultRecipe, setResultRecipe] = useState({})
 
     useEffect(() => {
         if (recipe.recipe) {
@@ -31,8 +31,8 @@ function RecipeShowModal({ recipe, recipeContext }) {
     if (currentUserId) {
         favoritedRecipes = currentUser.savedRecipes.favorited;
         plannedRecipes = currentUser.savedRecipes.planned;
-        recipeAlreadyFavorited = favoritedRecipes.some(rec => rec.url === recipe.url);
-        recipeAlreadyPlanned = plannedRecipes.some(rec => rec.url === recipe.url);
+        recipeAlreadyFavorited = favoritedRecipes.some(rec => rec.url === resultRecipe.url);
+        recipeAlreadyPlanned = plannedRecipes.some(rec => rec.url === resultRecipe.url);
     }
 
     const handleClick = (e, action) => {
@@ -52,8 +52,17 @@ function RecipeShowModal({ recipe, recipeContext }) {
                 break;
         }
     }
-    const addToPlannedButton = <BsCalendarPlus className={recipeAlreadyPlanned ? "recipe-menu-button active" : "recipe-menu-button"} onClick={e => handleClick(e, "plan")} />
-    const addToFavoritedButton = <AiOutlineHeart className={recipeAlreadyFavorited ? "recipe-menu-button active" : "recipe-menu-button"} onClick={e => handleClick(e, "favorite")} />
+
+    const addToPlannedButton = <BsCalendarPlus
+        className={recipeAlreadyPlanned ? "recipe-menu-button active" : "recipe-menu-button"}
+        onClick={e => recipeAlreadyPlanned ? handleClick(e, "unplan") : handleClick(e, "plan")}
+    />
+
+    const addToFavoritedButton = <AiOutlineHeart
+        className={recipeAlreadyFavorited ? "recipe-menu-button active" : "recipe-menu-button"}
+        onClick={e => recipeAlreadyFavorited ? handleClick(e, "unfavorite") : handleClick(e, "favorite")}
+    />
+
     if (recipe) {
         let title;
         let image
@@ -106,11 +115,9 @@ function RecipeShowModal({ recipe, recipeContext }) {
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
                         <RecipeShow 
-                        favorited={recipeAlreadyFavorited} 
-                        planned={recipeAlreadyPlanned} 
-                        addToPlannedButton={addToPlannedButton}
-                        addToFavoritedButton={addToFavoritedButton}
-                        recipe={recipeContext === 'searchResult' ? recipe.recipe : recipe}
+                            addToPlannedButton={addToPlannedButton}
+                            addToFavoritedButton={addToFavoritedButton}
+                            recipe={recipeContext === 'searchResult' ? recipe.recipe : recipe}
                         />
                     </Modal>
                 )}

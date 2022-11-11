@@ -1,13 +1,7 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import './RecipeShow.css';
 
-function RecipeShow({recipe, favorited, planned, addToPlannedButton, addToFavoritedButton}) {
+function RecipeShow({recipe, addToPlannedButton, addToFavoritedButton}) {
 
-    const currentUser = useSelector((state) => state.session.user);
-    // const [linkFavorite, setLinkFavorite] = useState("")
-    // const [linkPlanned, setLinkPlanned] = useState("")
 
     const ingredients = recipe.ingredients.map(
         (ingredient) => <div className='ingredient-list-item'>
@@ -28,8 +22,8 @@ function RecipeShow({recipe, favorited, planned, addToPlannedButton, addToFavori
                 </div>
             </div>
             <div id="recipe-show-links">
-                {favorited ? "" : <span>{addToFavoritedButton}</span>}
-                {planned ? "" : <span>{addToPlannedButton}</span>}
+                <span>{addToFavoritedButton}</span>
+                <span>{addToPlannedButton}</span>
                 <span><a href={recipe.url} target={"_blank"} rel="noreferrer">Source</a></span>
             </div>
 
